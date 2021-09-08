@@ -21,17 +21,27 @@ def languages():
     params = params = dict(q=f"created:>{start_date}", sort='stars', order='desc', per_page=100)
     repositories = get_repositories(params=params)
     data = {}
+    trend_lang = [0, ""]
+    n_nones = 0
     if repositories:
         for item in repositories["items"]:
-            lang = str(item['language'])
+            lang = str(item['language']).lower()
             repos_info = Repository(full_name=item['full_name'], url=item['url'])
-            if lang in data.keys():
-                data[lang].count += 1
-                data[lang].repositories.append(repos_info)
+            if lang != "none":
+                if lang in data.keys():
+                    data[lang].count += 1
+                    data[lang].repositories.append(repos_info)
+                    if trend_lang[0] < data[lang].count:
+                        trend_lang[0] = data[lang].count
+                        trend_lang[1] = data[lang].name
+                else:
+                    data[lang] = Language(name=lang, count=1, repositories=[repos_info])
             else:
-                data[lang] = Language(name=lang, count=1, repositories=[repos_info])
+                n_nones += 1
 
         return {
+            "trend_language":{"name":trend_lang[1], "count":trend_lang[0]},
+            "n_none_language":n_nones,
             "start_date": start_date,
             "items": [LanguageSchema().dump(item) for item in data.values()]
         }
