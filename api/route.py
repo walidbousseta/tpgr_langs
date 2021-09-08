@@ -3,16 +3,17 @@ from .service import *
 from .model import *
 from .schema import *
 
-
+# define the api route application
 api = Blueprint('api', __name__, url_prefix='/api')
 
+# index page of the api
 @api.route('/')
 def index():
     return {"message":"welcome to the api!"}
 
-
-@api.route('/repositories', methods=["GET"])
-def repositories():
+# to get languages
+@api.route('/languages', methods=["GET"])
+def languages():
     start_date = request.args.get('start_date')
     if start_date is None:
         date = datetime.datetime.now() - datetime.timedelta(30)
