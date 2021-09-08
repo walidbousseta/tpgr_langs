@@ -27,7 +27,7 @@ Werkzeug==2.0.1
 4. run the server using `flask run`
 
 ## Api endpoints
-**/languages**: 
+**BASEURL/api/languages**: 
 to get languages used by the 100 trending repositories
 
 params:
