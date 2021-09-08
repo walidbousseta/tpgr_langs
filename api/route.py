@@ -31,7 +31,10 @@ def languages():
             else:
                 data[lang] = Language(name=lang, count=1, repositories=[repos_info])
 
-        return {"items": [LanguageSchema().dump(item) for item in data.values()]}
+        return {
+            "start_date": start_date,
+            "items": [LanguageSchema().dump(item) for item in data.values()]
+        }
     
     return None
                 
