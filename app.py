@@ -5,7 +5,7 @@ from .site.route import site
 from .api.route import api
 
 
-
+# to create the app
 def create_app():
     app = Flask(__name__)
     app.register_blueprint(site)
